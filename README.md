@@ -1,2 +1,12 @@
 # zshconfig
-my termux config for zsh. including fzf binary search, autocomplete, autosuggetions, p10k, tmux.
+my termux config for zsh. including fzf binary search, autocomplete, autosuggestions, p10k, tmux.
+
+# how to install?
+first — install requirements 
+```shell
+pkg in git -y
+```
+then clone repo and execute install script
+```shell
+git clone https://github.com/egordebug/zshconfig.git && cd zshconfig && chmod +x install.sh postinstall.sh && bash -c ./install.sh
+```
