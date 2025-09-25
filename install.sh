@@ -47,4 +47,5 @@ fi
 # ------------------------------------------------------------------
 }
 mainfuncinstallercfg
+bash -c "./postinstall.sh"
 # end
