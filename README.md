@@ -1,5 +1,5 @@
 # zshconfig
-my termux config for zsh. including fzf binary search, autocomplete, autosuggestions, p10k, tmux.
+my termux config. including fzf binary search, autocomplete, autosuggestions, p10k, tmux, zsh.
 
 # how to install?
 first — install requirements 
