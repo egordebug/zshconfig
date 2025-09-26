@@ -1,4 +1,3 @@
-#!$(which bash)
 
 echo -e "Config by www.github.com/egordebug\nloading..."
 
