@@ -61,6 +61,10 @@ deploycfgfunc() {
     fi
 }
 
+
+changeshellfunc() {
+chsh
+}
 # ------------------------------------------------------------------
 
 applycfgfunc() {
@@ -73,7 +77,6 @@ applycfgfunc() {
 }
 
 # ------------------------------------------------------------------
-
 main() {
     read -p "Create backups of config files? (y/n): " answer
     if [[ "$answer" =~ ^[Yy](es)?$ ]]; then
@@ -89,13 +92,20 @@ main() {
         echo "Skipped deployment"
     fi
 
+    read -p "Change shell? (y/n): " answer
+    if [[ "$answer" =~ ^[Yy](es)?$ ]]; then
+        changeshellfunc
+    else
+        echo "Skipped shell changing"
+    fi
+
     read -p "Apply ~/.bashrc? (y/n): " answer
     if [[ "$answer" =~ ^[Yy](es)?$ ]]; then
         applycfgfunc
     else
         echo "Skipped applying ~/.bashrc"
     fi
-}
+} 
 
 main
 
