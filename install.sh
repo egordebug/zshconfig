@@ -4,19 +4,61 @@ clear # simulated loading so that you can have time to read the banner
 # ------------------------------------------------------------------
 
 set_motd() {
-    echo -e "Config by www.github.com/egordebug\nloading..." > $PREFIX/etc/motd
+    echo -e "Config by www.github.com/egordebug\nloading..." > $PREFIX/etc/motd || sudo echo -e "Config by www.github.com/egordebug\nloading..." > /etc/motd || doas echo -e "Config by www.github.com/egordebug\nloading..." > /etc/motd || su -c "echo -e "Config by www.github.com/egordebug\nloading..." > $PREFIX/etc/motd"
 }
 
 install_packages() {
-    pkg in zsh git curl tmux fastfetch fzf -y # required packages
+set -euo pipefail
+
+PACKAGES=(git zsh tmux fzf fastfetch)
+
+if command -v pkg >/dev/null 2>&1; then
+    pm=("pkg" "i" "-y")
+elif command -v apt >/dev/null 2>&1; then
+    pm=("apt" "install" "-y")
+elif command -v apt-get >/dev/null 2>&1; then
+    pm=("apt-get" "install" "-y")
+elif command -v dnf >/dev/null 2>&1; then
+    pm=("dnf" "install" "-y")
+elif command -v yum >/dev/null 2>&1; then
+    pm=("yum" "install" "-y")
+elif command -v pacman >/dev/null 2>&1; then
+    pm=("pacman" "-S" "--noconfirm")
+elif command -v yay >/dev/null 2>&1; then
+    pm=("yay" "-S" "--noconfirm")
+elif command -v zypper >/dev/null 2>&1; then
+    pm=("zypper" "install" "-y")
+elif command -v apk >/dev/null 2>&1; then
+    pm=("apk" "add" "--no-cache")
+elif command -v emerge >/dev/null 2>&1; then
+    pm=("emerge" "--ask=n")
+elif command -v rpm >/dev/null 2>&1; then
+    pm=("rpm" "-i")
+elif command -v brew >/dev/null 2>&1; then
+    pm=("brew" "install")
+elif command -v nix >/dev/null 2>&1; then
+    pm=("nix" "profile" "install")
+elif command -v xbps-install >/dev/null 2>&1; then
+    pm=("xbps-install" "-y")
+elif command -v eopkg >/dev/null 2>&1; then
+    pm=("eopkg" "install" "-y")
+else
+    pm=()
+fi
+
+if [ ${#pm[@]} -gt 0 ]; then
+    echo "Detected package manager: ${pm[0]}"
+    su -c "\"${pm[@]}\" \"${PACKAGES[@]}\""
+else
+    echo "No known package manager found"
+fi
 }
 
 install_ohmyzsh() {
-    # Устанавливаем Oh My Zsh без переключения на zsh
     RUNZSH=no CHSH=no KEEP_ZSHRC=yes \
     bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-    # Ставим плагины и тему
+    
     git clone https://github.com/zsh-users/zsh-autosuggestions \
         ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
