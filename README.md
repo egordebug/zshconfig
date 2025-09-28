@@ -4,7 +4,7 @@ my termux config. including fzf binary search, autocomplete, autosuggestions, p1
 # how to install?
 first — install requirements 
 ```shell
-pkg in git -y
+pkg in git bash -y
 ```
 then clone repo and execute install script
 ```shell
