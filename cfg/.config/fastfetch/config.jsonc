@@ -1,12 +1,33 @@
 {
   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
   "modules": [
-    "os",
-    "host",
-    "kernel",
-    "uptime",
-    "shell",
-    "font",
-    "cpu"
+    {
+      "name": "os",
+      "color": "38;5;75"     
+    },
+    {
+      "name": "host",
+      "color": "38;5;110"   
+    },
+    {
+      "name": "kernel",
+      "color": "38;5;117"
+    },
+    {
+      "name": "uptime",
+      "color": "38;5;223"     
+    },
+    {
+      "name": "shell",
+      "color": "38;5;81"       
+    },
+    {
+      "name": "font",
+      "color": "38;5;75"
+    },
+    {
+      "name": "cpu",
+      "color": "38;5;204" 
+    }
   ]
 }
