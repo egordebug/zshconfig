@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#!$PREFIX/bin/env bash
 echo -e "Config by www.github.com/egordebug\nloading..."
 sleep 1
 clear # simulated loading so that you can have time to read the banner
