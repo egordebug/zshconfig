@@ -29,7 +29,7 @@ elif command -v yay >/dev/null 2>&1; then
 elif command -v zypper >/dev/null 2>&1; then
     pm=("zypper" "install" "-y")
 elif command -v apk >/dev/null 2>&1; then
-    pm=("apk" "add" "--no-cache")
+    pm=("apk" "add")
 elif command -v emerge >/dev/null 2>&1; then
     pm=("emerge" "--ask=n")
 elif command -v rpm >/dev/null 2>&1; then
