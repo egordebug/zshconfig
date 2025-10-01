@@ -48,7 +48,7 @@ fi
 
 if [ ${#pm[@]} -gt 0 ]; then
     echo "Detected package manager: ${pm[0]}"
-    su -c '"\"${pm[@]}\" \"${PACKAGES[@]}\""'
+    su -c "\"${pm[@]}\" \"${PACKAGES[@]}\""
 else
     echo "No known package manager found"
 fi
