@@ -16,6 +16,7 @@ then clone repo and execute install script
 ```shell
 git clone https://github.com/egordebug/zshconfig.git && cd zshconfig && chmod +x install.sh postinstall.sh && bash -c ./install.sh
 ```
+##Screenshots: egordebug.github.io/zshconfig
 ## License
 
 This project is licensed under the MIT License.  
