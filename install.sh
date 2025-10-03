@@ -7,52 +7,73 @@ set_motd() {
     echo -e "Config by www.github.com/egordebug\nloading..." > $PREFIX/etc/motd || sudo echo -e "Config by www.github.com/egordebug\nloading..." > /etc/motd || doas echo -e "Config by www.github.com/egordebug\nloading..." > /etc/motd || su -c "echo -e "Config by www.github.com/egordebug\nloading..." > $PREFIX/etc/motd"
 }
 
+
 install_packages() {
-set -euo pipefail
+    set -euo pipefail
 
-PACKAGES=(git zsh tmux fzf fastfetch)
+    PACKAGES=(git zsh tmux fzf fastfetch)
 
-if command -v pkg >/dev/null 2>&1; then
-    pm=("pkg" "i" "-y")
-elif command -v apt >/dev/null 2>&1; then
-    pm=("apt" "install" "-y")
-elif command -v apt-get >/dev/null 2>&1; then
-    pm=("apt-get" "install" "-y")
-elif command -v dnf >/dev/null 2>&1; then
-    pm=("dnf" "install" "-y")
-elif command -v yum >/dev/null 2>&1; then
-    pm=("yum" "install" "-y")
-elif command -v pacman >/dev/null 2>&1; then
-    pm=("pacman" "-S" "--noconfirm")
-elif command -v yay >/dev/null 2>&1; then
-    pm=("yay" "-S" "--noconfirm")
-elif command -v zypper >/dev/null 2>&1; then
-    pm=("zypper" "install" "-y")
-elif command -v apk >/dev/null 2>&1; then
-    pm=("apk" "add")
-elif command -v emerge >/dev/null 2>&1; then
-    pm=("emerge" "--ask=n")
-elif command -v rpm >/dev/null 2>&1; then
-    pm=("rpm" "-i")
-elif command -v brew >/dev/null 2>&1; then
-    pm=("brew" "install")
-elif command -v nix >/dev/null 2>&1; then
-    pm=("nix" "profile" "install")
-elif command -v xbps-install >/dev/null 2>&1; then
-    pm=("xbps-install" "-y")
-elif command -v eopkg >/dev/null 2>&1; then
-    pm=("eopkg" "install" "-y")
-else
-    pm=()
-fi
+    if command -v pkg >/dev/null 2>&1; then
+        pm=("pkg" "i" "-y")
+        use_su=0
+    elif command -v apt >/dev/null 2>&1; then
+        pm=("apt" "install" "-y")
+        use_su=1
+    elif command -v apt-get >/dev/null 2>&1; then
+        pm=("apt-get" "install" "-y")
+        use_su=1
+    elif command -v dnf >/dev/null 2>&1; then
+        pm=("dnf" "install" "-y")
+        use_su=1
+    elif command -v yum >/dev/null 2>&1; then
+        pm=("yum" "install" "-y")
+        use_su=1
+    elif command -v pacman >/dev/null 2>&1; then
+        pm=("pacman" "-S" "--noconfirm")
+        use_su=1
+    elif command -v yay >/dev/null 2>&1; then
+        pm=("yay" "-S" "--noconfirm")
+        use_su=0
+    elif command -v zypper >/dev/null 2>&1; then
+        pm=("zypper" "install" "-y")
+        use_su=1
+    elif command -v apk >/dev/null 2>&1; then
+        pm=("apk" "add")
+        use_su=1
+    elif command -v emerge >/dev/null 2>&1; then
+        pm=("emerge" "--ask=n")
+        use_su=1
+    elif command -v rpm >/dev/null 2>&1; then
+        pm=("rpm" "-i")
+        use_su=1
+    elif command -v brew >/dev/null 2>&1; then
+        pm=("brew" "install")
+        use_su=0
+    elif command -v nix >/dev/null 2>&1; then
+        pm=("nix" "profile" "install")
+        use_su=0
+    elif command -v xbps-install >/dev/null 2>&1; then
+        pm=("xbps-install" "-y")
+        use_su=1
+    elif command -v eopkg >/dev/null 2>&1; then
+        pm=("eopkg" "install" "-y")
+        use_su=1
+    else
+        pm=()
+        use_su=0
+    fi
 
-if [ ${#pm[@]} -gt 0 ]; then
-    echo "Detected package manager: ${pm[0]}"
-    su -c "\"${pm[@]}\" \"${PACKAGES[@]}\""
-else
-    echo "No known package manager found"
-fi
-}
+    if [ ${#pm[@]} -gt 0 ]; then
+        echo "Detected package manager: ${pm[0]}"
+        if [ "$use_su" -eq 1 ]; then
+            su -c "\"${pm[@]}\" \"${PACKAGES[@]}\""
+        else
+            "${pm[@]}" "${PACKAGES[@]}"
+        fi
+    else
+        echo "No known package manager found"
+    fi
+} 
 
 install_ohmyzsh() {
     RUNZSH=no CHSH=no KEEP_ZSHRC=yes \
