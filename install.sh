@@ -11,17 +11,17 @@ set_motd() {
 install_packages() {
     set -euo pipefail
 
-    PACKAGES=(git zsh tmux fzf fastfetch)
+    PACKAGES=(git zsh tmux fzf fastfetch python3 python-pip nvim)
 
     if command -v pkg >/dev/null 2>&1; then
         pm=("pkg" "i" "-y")
         use_su=0
     elif command -v apt >/dev/null 2>&1; then
         pm=("apt" "install" "-y")
-        use_su=1
+        use_su=0
     elif command -v apt-get >/dev/null 2>&1; then
         pm=("apt-get" "install" "-y")
-        use_su=1
+        use_su=0
     elif command -v dnf >/dev/null 2>&1; then
         pm=("dnf" "install" "-y")
         use_su=1
@@ -73,6 +73,7 @@ install_packages() {
     else
         echo "No known package manager found"
     fi
+    pip install lsd bat
 } 
 
 install_ohmyzsh() {
