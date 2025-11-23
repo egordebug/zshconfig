@@ -67,6 +67,8 @@ alias tswap='tmux swap-pane -t'
 alias txka='tmux kill-pane'
 alias clear='clear && echo'
 alias fast='fastfetch --logo small'
+alias ls='lsd'
+alias tree='lsd --tree'
 
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
